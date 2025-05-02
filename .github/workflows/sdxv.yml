@@ -6,6 +6,7 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    environment: bamuel.com
     steps:
       - name: Set timezone to AEST
         run: sudo timedatectl set-timezone Australia/Sydney  # Set the timezone early in the workflow
@@ -37,3 +38,15 @@ jobs:
             cypress/exports/profileData.json
           retention-days: 30
         continue-on-error: true
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          known_hosts: ${{ secrets.DEPLOY_HOST }}
+
+      - name: Upload to webserver via SCP
+        run: |
+          scp -o StrictHostKeyChecking=no \
+              cypress/exports/profileData.json \
+              ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
