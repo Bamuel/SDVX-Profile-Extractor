@@ -1,6 +1,6 @@
 {
-  "name": "sdxv_data_extraction",
-  "description": "Cypress automation test for extracting data from SDXV.",
+  "name": "sdvx-profile-extractor",
+  "description": "Cypress automation for extracting data from SDXV profile page.",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "main": "cypress.config.js",
