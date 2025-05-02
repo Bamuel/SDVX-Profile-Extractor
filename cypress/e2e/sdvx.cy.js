@@ -135,8 +135,8 @@ describe('SDVX Profile with Injected Cookies', () => {
                     //play date
                     playEntry.date = td;
                 } else if (th === '楽曲名') {
-                    //play song
-                    playEntry.song = td;
+                    playEntry.song = $row.find('.music_name').text().trim();
+                    playEntry.artist = td.replace(playEntry.song, '').trim();
                 } else if (th === 'プレーヤー名') {
                     //play player name
                     playEntry.playerName = td;
