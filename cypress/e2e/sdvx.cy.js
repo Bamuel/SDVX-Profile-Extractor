@@ -18,6 +18,7 @@ describe('SDVX Profile with Injected Cookies', () => {
         const profileData = {
             playerInfo: {},
             stats: {},
+            playHistory: [],
             timestamp: new Date().toISOString()
         };
 
@@ -86,11 +87,7 @@ describe('SDVX Profile with Injected Cookies', () => {
                     profileData.stats.pcbCount = extractNumber(value);
                     break;
                 case 'BLASTER PASS':
-                    if (value === '購入はこちらから') {
-                        profileData.stats.blasterPass = false;
-                    } else {
-                        profileData.stats.blasterPass = true;
-                    }
+                    profileData.stats.blasterPass = value !== '購入はこちらから';
                     extractImageCSS('.profile_blasterpass').then((base64) => {
                         profileData.stats.blasterPassImage = base64;
                     });
@@ -124,6 +121,39 @@ describe('SDVX Profile with Injected Cookies', () => {
                     break;
             }
         });
+
+        //Extract play history
+        cy.get('#sp_table > table').each(($table) => {
+            const playEntry = {}; // Create an object for each play entry
+
+            cy.wrap($table).find('tr').each(($row) => {
+                const th = $row.find('th').text().trim();
+                const td = $row.find('td').text().trim();
+
+
+                if (th === 'プレー日時') {
+                    //play date
+                    playEntry.date = td;
+                } else if (th === '楽曲名') {
+                    //play song
+                    playEntry.song = td;
+                } else if (th === 'プレーヤー名') {
+                    //play player name
+                    playEntry.playerName = td;
+                } else if (th === 'プレーヤーID') {
+                    //play player id
+                    playEntry.playerId = td;
+                } else if (th === 'スキルレベル') {
+                    //play skill level
+                    playEntry.skillLevel = td;
+                } else {
+                    playEntry[th] = td; // For any other fields
+                }
+            }).then(() => {
+                profileData.playHistory.push(playEntry); // Now this will work
+            });
+        });
+
 
         // Finalize and save data
         cy.then(() => {
@@ -178,5 +208,5 @@ function extractImageCSS(selector) {
 
 // Function to extract numeric value from text
 function extractNumber(text) {
-    return parseInt(text.replace(/[^\d]/g, '')) || 0;
+    return parseInt(text.replace(/\D/g, '')) || 0;
 }
