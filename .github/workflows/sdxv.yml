@@ -1,0 +1,39 @@
+name: SDVX Profile Extractor
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set timezone to AEST
+        run: sudo timedatectl set-timezone Australia/Sydney  # Set the timezone early in the workflow
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Chrome
+        run: sudo apt-get install -y google-chrome-stable
+
+      - name: Run SDVX Test
+        run: |
+          export TERM=xterm
+          npx cypress run --spec cypress/e2e/sdvx.cy.js --browser chrome --env COOKIE_M573SSID=${{ secrets.COOKIE_M573SSID }}
+
+      - name: Upload Cypress exports
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-exports
+          path: |
+            cypress/exports/profileData.json
+          retention-days: 30
+        continue-on-error: true
