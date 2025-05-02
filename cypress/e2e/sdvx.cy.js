@@ -19,7 +19,7 @@ describe('SDVX Profile with Injected Cookies', () => {
             playerInfo: {},
             stats: {},
             playHistory: [],
-            timestamp: new Date().toISOString()
+            timestamp: Date.now()
         };
 
         // Extract player information
