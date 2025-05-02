@@ -158,7 +158,7 @@ describe('SDVX Profile with Injected Cookies', () => {
         // Finalize and save data
         cy.then(() => {
             // Save to JSON file
-            cy.writeFile('cypress/exports/profileData.json', profileData);
+            cy.writeFile('cypress/exports/SDVXprofileData.json', profileData);
             cy.log('Profile data extracted:', profileData);
         });
     });

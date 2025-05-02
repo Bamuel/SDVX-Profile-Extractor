@@ -35,7 +35,7 @@ jobs:
         with:
           name: cypress-exports
           path: |
-            cypress/exports/profileData.json
+            cypress/exports/SDVXprofileData.json
           retention-days: 30
         continue-on-error: true
 
@@ -48,5 +48,5 @@ jobs:
       - name: Upload to webserver via SCP
         run: |
           scp -o StrictHostKeyChecking=no \
-              cypress/exports/profileData.json \
+              cypress/exports/SDVXprofileData.json \
               ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
