@@ -2,8 +2,6 @@ name: SDVX Profile Extractor
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 7 * * 3,6' # Every Wednesday and Saturday at 7am UTC
 
 jobs:
   cypress-run:
