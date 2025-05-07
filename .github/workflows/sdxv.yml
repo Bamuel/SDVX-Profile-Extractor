@@ -3,6 +3,9 @@ name: SDVX Profile Extractor
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
