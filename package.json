@@ -5,6 +5,6 @@
   "license": "UNLICENSED",
   "main": "cypress.config.js",
   "dependencies": {
-    "cypress": "^14.3.3"
+    "cypress": "^14.4.0"
   }
 }
