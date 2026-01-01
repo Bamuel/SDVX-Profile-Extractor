@@ -34,7 +34,7 @@ jobs:
           npx cypress run --spec cypress/e2e/sdvx.cy.js --browser chrome --env COOKIE_M573SSID=${{ secrets.COOKIE_M573SSID }}
 
       - name: Upload Cypress exports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cypress-exports
           path: |
